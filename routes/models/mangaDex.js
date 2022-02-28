@@ -56,7 +56,7 @@ class MangaDex {
               $(".container").children(".alert-warning").text().trim() !== ""
             ) {
               res.send({
-                LatestManga: "end",
+                latestManga: "end",
               });
             } else {
               $(".manga-entry").each((i, el) => {
@@ -79,11 +79,12 @@ class MangaDex {
                       .children("a")
                       .children("img")
                       .attr("src"),
+                  scr: "MGDX",
                 };
                 mangaArr.push(tempObj);
               });
               let response = {
-                LatestManga: mangaArr,
+                latestManga: mangaArr,
               };
               resolve(response);
             }

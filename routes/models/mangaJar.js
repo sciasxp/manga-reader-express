@@ -71,7 +71,7 @@ class MangaJar{
             let tempObj = {};
             if ($(".card-body").children("div").eq(0).children("article").length == 0) {
               resolve({
-                LatestManga: [],
+                latestManga: [],
               });
             } else {
               $(".card-body")
@@ -106,13 +106,14 @@ class MangaJar{
                     title: title,
                     link: link,
                     thumb: imageLink,
+                    src: "MGJR",
                   };
 
                   mangaArr.push(tempObj);
                 });
 
               resolve({
-                LatestManga: mangaArr,
+                latestManga: mangaArr,
               });
             }
           } catch (error) {

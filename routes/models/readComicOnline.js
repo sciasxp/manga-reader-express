@@ -93,10 +93,11 @@ class ReadComicOnline {
                           .children("a")
                           .children("img")
                           .attr("src"),
+                  src: "RCO",
                 });
               });
             resolve({
-              LatestManga: comicArr,
+              latestManga: comicArr,
             });
           } catch (e) {
             console.log(e);

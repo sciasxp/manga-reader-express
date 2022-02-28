@@ -223,12 +223,13 @@ class MangaHere {
                   title: title,
                   link: link,
                   thumb: imageLink,
+                  src: "MGHR"
                 };
                 // console.log('here')
                 mangaArr.push(tempObj);
               });
             resolve({
-              LatestManga: mangaArr,
+              latestManga: mangaArr,
             });
           } catch (e) {
             console.log(e);

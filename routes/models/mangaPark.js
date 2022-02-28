@@ -94,13 +94,14 @@ class MangaPark {
                     title: title,
                     link: link,
                     thumb: imageLink,
+                    src: "MGPK",
                   };
 
                   mangaArr.push(tempObj);
                 });
 
               resolve({
-                LatestManga: mangaArr,
+                latestManga: mangaArr,
               });
             }
           } catch (error) {

@@ -103,7 +103,8 @@ class MangaHere {
                     arr.push({
                         title: x.SeriesName,
                         link: "https://mangasee123.com/manga/"+ x.IndexName,
-                        thumb: "https://cover.nep.li/cover/" + x.IndexName + ".jpg"
+                        thumb: "https://cover.nep.li/cover/" + x.IndexName + ".jpg",
+                        src: "MGSE",
                     })
                 }
 
@@ -111,11 +112,11 @@ class MangaHere {
             }
             if(pageNo == 1){
               resolve({
-                LatestManga: evalMangaList(html),
+                latestManga: evalMangaList(html),
               });
             }else{
               resolve({
-                LatestManga: [],
+                latestManga: [],
               });
             }
             

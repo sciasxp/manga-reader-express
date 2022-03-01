@@ -273,6 +273,7 @@ class MangaHere {
                 var ret = evalMangaList(html)
                 resolve({
                   mangaInfo: {
+                    src: "MGSE",
                     thumb: "https://cover.nep.li/cover/"+ret[0]+".jpg",
                     title: $(".BoxBody").children(".row").children("div").eq(2).children("ul").children("li").eq(0).text().trim(),
                     desc: $(".BoxBody").children(".row").children("div").eq(2).children("ul").children("li").eq(-1).children("div").text().trim(),

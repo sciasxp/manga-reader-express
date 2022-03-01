@@ -380,6 +380,7 @@ class MangaHere {
 
             resolve({
               mangaInfo: {
+                scr: "MGHR",
                 thumb: thumb,
                 title: title,
                 desc: desc,

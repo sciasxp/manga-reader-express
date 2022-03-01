@@ -329,6 +329,7 @@ class MangaJar{
             
             resolve({
               mangaInfo: {
+                src: "MGJR",
                 thumb: thumb,
                 title: title,
                 desc: desc,

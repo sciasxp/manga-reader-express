@@ -271,6 +271,7 @@ class MangaDex {
               let data2 = response.data.data;
               response = {
                 mangaInfo: {
+                  scr: "MGDX",
                   thumb: data.mainCover,
                   title: data.title,
                   desc: _.unescape(

@@ -267,6 +267,7 @@ class ReadComicOnline {
             }
 
             let comicObj = {
+              src: "RCO",
               title: $(".barContent")
                 .eq(0)
                 .children("div")

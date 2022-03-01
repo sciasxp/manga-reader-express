@@ -299,6 +299,7 @@ class MangaHere {
     });
   }
 
+
   getLatestChapter(url) {
     return new Promise((resolve, reject) => {
       http.get(url, (resp) => {
@@ -382,6 +383,7 @@ class MangaHere {
 
             resolve({
               mangaInfo: {
+                src: "MGFX",
                 thumb: thumb,
                 title: title,
                 desc: desc,

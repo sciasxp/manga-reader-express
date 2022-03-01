@@ -330,6 +330,7 @@ class MangaPark {
               });
             resolve({
               mangaInfo: {
+                src: "MGPK",
                 thumb: thumb,
                 title: title,
                 desc: desc,

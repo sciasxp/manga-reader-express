@@ -191,8 +191,63 @@ class MangaHere {
   }
 
   getMangaList(pageNo) {
+    let url = `https://fanfox.net/directory/${pageNo}.html`;
+
+    return new Promise((resolve, reject) => {
+      http.get(url, (resp) => {
+        let html = "";
+
+        resp.on("data", (chunk) => {
+          html += chunk;
+        });
+
+        resp.on("end", () => {
+          //   console.log(html);
+          try {
+            const $ = cheerio.load(html);
+            let mangaArr = [];
+            let tempObj = {};
+            $(".manga-list-1-list")
+              .children("li")
+              .each((idx, el) => {
+                let desc = $(el).children("p").text();
+                desc = desc.replace(/\n/g, "");
+                desc = desc.replace(/\\/g, "");
+                let title = $(el)
+                  .children(".manga-list-1-item-title")
+                  .children("a")
+                  .text();
+                let link = $(el).children("a").attr("href");
+                link = "https://fanfox.net" + link;
+                let imageLink = $(el).children("a").children("img").attr("src");
+                tempObj = {
+                  description: "",
+                  title: title,
+                  link: link,
+                  thumb: imageLink,
+                  src: "MGFX",
+                };
+                // console.log('here')
+                mangaArr.push(tempObj);
+              });
+            resolve({
+              latestManga: mangaArr,
+            });
+          } catch (e) {
+            console.log(e);
+          }
+        });
+        resp.on("error", () => {
+          console.log(error);
+        });
+      });
+    });
+  }
+
+  /*
+  getMangaList(pageNo) {
     // let url = `https://fanfox.net/new/${pageNo}.html`;
-    let url = `https://fanfox.net/releases/${pageNo}.html`;
+    let url = `https://fanfox.net/directory/${pageNo}.html`;
 
     return new Promise((resolve, reject) => {
       http.get(url, (resp) => {
@@ -244,6 +299,7 @@ class MangaHere {
       });
     });
   }
+  */
 
   search(maxItem, title, finalArray) {
     return new Promise((resolve, reject) => {

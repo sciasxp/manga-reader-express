@@ -3,6 +3,55 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 
 class MangaHere {
+
+  getPrevNextChapters(url) {
+    return new Promise((resolve, reject) => {
+      http.get(url, (resp) => {
+        let html = "";
+
+        resp.on("data", (chunk) => {
+          html += chunk;
+        });
+
+        resp.on("end", () => {
+          try {
+            const $ = cheerio.load(html);
+            const next = $(".pager-list-left")
+              .eq(1)
+              .children("a")
+              .eq(1)
+              .attr("href");
+
+            const prev = $(".pager-list-left")
+              .eq(1)
+              .children("a")
+              .eq(0)
+              .attr("href");
+            
+            let nextChap = "";
+            let prevChap = "";
+
+            if (next !== undefined) {
+              nextChap = "https://fanfox.net" + next;
+            }
+
+            if (prev !== undefined) {
+              prevChap = "https://fanfox.net" + prev;
+            }
+
+            resolve({
+              prevChapter: prevChap,
+              nextChapter: nextChap,
+            });
+            
+          } catch (e) {
+            console.log(e);
+          }
+        });
+      });
+    });
+  }
+
   getImageList(url, reliable = false) {
     if (reliable === false) {
       return new Promise((resolve, reject) => {
@@ -202,7 +251,6 @@ class MangaHere {
         });
 
         resp.on("end", () => {
-          //   console.log(html);
           try {
             const $ = cheerio.load(html);
             let mangaArr = [];
@@ -227,7 +275,6 @@ class MangaHere {
                   thumb: imageLink,
                   src: "MGFX",
                 };
-                // console.log('here')
                 mangaArr.push(tempObj);
               });
             resolve({
@@ -243,63 +290,6 @@ class MangaHere {
       });
     });
   }
-
-  /*
-  getMangaList(pageNo) {
-    // let url = `https://fanfox.net/new/${pageNo}.html`;
-    let url = `https://fanfox.net/directory/${pageNo}.html`;
-
-    return new Promise((resolve, reject) => {
-      http.get(url, (resp) => {
-        let html = "";
-
-        resp.on("data", (chunk) => {
-          html += chunk;
-        });
-
-        resp.on("end", () => {
-          //   console.log(html);
-          try {
-            const $ = cheerio.load(html);
-            let mangaArr = [];
-            let tempObj = {};
-            $(".manga-list-4-list")
-              .children("li")
-              .each((idx, el) => {
-                let desc = $(el).children("p").text();
-                desc = desc.replace(/\n/g, "");
-                desc = desc.replace(/\\/g, "");
-                let title = $(el)
-                  .children(".manga-list-4-item-title")
-                  .children("a")
-                  .text();
-                let link = $(el).children("a").attr("href");
-                link = "https://fanfox.net" + link;
-                let imageLink = $(el).children("a").children("img").attr("src");
-                tempObj = {
-                  description: "",
-                  title: title,
-                  link: link,
-                  thumb: imageLink,
-                  src: "MGFX",
-                };
-                // console.log('here')
-                mangaArr.push(tempObj);
-              });
-            resolve({
-              latestManga: mangaArr,
-            });
-          } catch (e) {
-            console.log(e);
-          }
-        });
-        resp.on("error", () => {
-          console.log(error);
-        });
-      });
-    });
-  }
-  */
 
   search(maxItem, title, finalArray) {
     return new Promise((resolve, reject) => {
@@ -354,7 +344,6 @@ class MangaHere {
       });
     });
   }
-
 
   getLatestChapter(url) {
     return new Promise((resolve, reject) => {

@@ -264,7 +264,8 @@ class MangaHere {
                 let title = $(el)
                   .children(".manga-list-1-item-title")
                   .children("a")
-                  .text();
+                  .attr("title");
+                  //.text();
                 let link = $(el).children("a").attr("href");
                 link = "https://fanfox.net" + link;
                 let imageLink = $(el).children("a").children("img").attr("src");

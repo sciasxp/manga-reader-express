@@ -79,9 +79,12 @@ router.post("/getImageList", async (req, res) => {
 router.post("/getMangaList", (req, res) => {
   // Gets manga list according to params and source
   let pageNo = req.body.page;
+  let status = req.body.status;
+  let sortby = req.body.sortby
+
   switch (req.body.src) {
     case "MGFX":
-      mangaFoxObj.getMangaList(pageNo).then((data) => {
+      mangaFoxObj.getMangaList(pageNo, status, sortby).then((data) => {
         res.send(data);
       });
       break;

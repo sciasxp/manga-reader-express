@@ -239,8 +239,16 @@ class MangaHere {
     }
   }
 
-  getMangaList(pageNo) {
+  getMangaList(pageNo, status = 'ALL', sortby = '') {
     let url = `https://fanfox.net/directory/${pageNo}.html`;
+    
+    if (status === 'ALL') {
+      url = `https://fanfox.net/directory/${status}/${pageNo}.html`;
+    }
+
+    if (sortby != '') {
+      url = url + '?${sortby}'
+    }
 
     return new Promise((resolve, reject) => {
       http.get(url, (resp) => {

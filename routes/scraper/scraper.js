@@ -138,11 +138,12 @@ router.post("/search", (req, res) => {
   if (req.body.type === "manga") {
     {
       mangaFoxObj.search(maxItem, title, []).then((data) => {
-        mangaHereObj.search(maxItem, title, data).then((data) => {
-          mangaJarObj.search(maxItem,title,data).then((data)=>{
-              res.send({ searchArray: data });
-          })
-        });
+        res.send({ searchArray: data });
+        // mangaHereObj.search(maxItem, title, data).then((data) => {
+        //   mangaJarObj.search(maxItem,title,data).then((data)=>{
+        //       res.send({ searchArray: data });
+        //   })
+        // });
       });
     }
   } else if (req.body.type === "comic") {
@@ -330,9 +331,5 @@ router.post("/getPrevNextChapter", (req, res) => {
     res.send(data);
   });
 })
-
-// router.get("/loaderio-d93ad6fc1bf4137c4e38eee965a3e838.html", (req, res) => {
-//   res.send("loaderio-d93ad6fc1bf4137c4e38eee965a3e838");
-// });
 
 module.exports = router;

@@ -16,27 +16,33 @@ class MangaHere {
         resp.on("end", () => {
           try {
             const $ = cheerio.load(html);
-            const next = $(".pager-list-left")
-              .eq(1)
-              .children("a")
-              .eq(1)
-              .attr("href");
-
-            const prev = $(".pager-list-left")
-              .eq(1)
-              .children("a")
-              .eq(0)
-              .attr("href");
             
             let nextChap = "";
             let prevChap = "";
 
-            if (next !== undefined) {
-              nextChap = "https://fanfox.net" + next;
+            const nodePrev = $(".pager-list-left")
+              .eq(1)
+              .children("a")
+              .eq(0)
+
+            const nodeNext = $(".pager-list-left")
+              .eq(1)
+              .children("a")
+              .eq(1)
+
+            if (nodePrev.text() === "Pre chapter") {
+              prevChap = "https://fanfox.net" + nodePrev
+                                                  .attr("href");
             }
 
-            if (prev !== undefined) {
-              prevChap = "https://fanfox.net" + prev;
+            if (nodePrev.text() === "Next Chapter") {
+              nextChap = "https://fanfox.net" + nodePrev
+                                                 .attr("href");
+            }
+
+            if (nodeNext.text() === "Next Chapter") {
+              nextChap = "https://fanfox.net" + nodeNext
+                                                  .attr("href");
             }
 
             resolve({

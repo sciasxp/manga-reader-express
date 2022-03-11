@@ -283,6 +283,7 @@ class MangaHere {
                 let link = $(el).children("a").attr("href");
                 link = "https://fanfox.net" + link;
                 let imageLink = $(el).children("a").children("img").attr("src");
+                
                 tempObj = {
                   description: "",
                   title: title,
@@ -292,9 +293,10 @@ class MangaHere {
                 };
                 mangaArr.push(tempObj);
               });
+
             resolve({
-              latestManga: mangaArr,
-            });
+              mangaList: mangaArr,
+            });  
           } catch (e) {
             console.log(e);
           }

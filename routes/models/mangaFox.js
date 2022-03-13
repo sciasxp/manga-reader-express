@@ -517,7 +517,6 @@ class MangaHere {
       http.get(url, (resp) => {
         let html = "";
         
-
         resp.on("data", (chunk) => {
           html += chunk;
         });

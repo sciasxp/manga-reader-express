@@ -367,7 +367,12 @@ class MangaHere {
 
   getLatestChapter(url) {
     return new Promise((resolve, reject) => {
-      http.get(url, (resp) => {
+      var options = {
+        method: 'GET',
+        headers: {'Cookie': 'isAdult=1'}
+      };
+
+      http.get(url, options, (resp) => {
         let html = "";
 
         resp.on("data", (chunk) => {

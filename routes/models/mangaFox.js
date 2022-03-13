@@ -6,7 +6,12 @@ class MangaHere {
 
   getPrevNextChapters(url) {
     return new Promise((resolve, reject) => {
-      http.get(url, (resp) => {
+      var options = {
+        method: 'GET',
+        headers: {'Cookie': 'isAdult=1'}
+      };
+
+      http.get(url, options, (resp) => {
         let html = "";
 
         resp.on("data", (chunk) => {
@@ -21,14 +26,12 @@ class MangaHere {
             let prevChap = "";
 
             const nodePrev = $(".pager-list-left")
-              .eq(1)
               .children("a")
-              .eq(0)
+              .first()
 
             const nodeNext = $(".pager-list-left")
-              .eq(1)
               .children("a")
-              .eq(1)
+              .last()
 
             if (nodePrev.text() === "Pre chapter") {
               prevChap = "https://fanfox.net" + nodePrev

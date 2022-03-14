@@ -227,6 +227,14 @@ router.post("/getMangaInfo", (req, res) => {
   }
 });
 
+router.post("/getMangaMeta", (req, res) => {
+  // Gets info and chapter list of manga from url
+  let url = req.body.url;
+  mangaFoxObj.getMangaMeta(url).then((data) => {
+    res.send(data);
+  });
+});
+
 router.post("/getGenres", (req, res) => {
   switch (req.body.src) {
     case "MGFX":

@@ -209,34 +209,29 @@ class MangaHere {
             function binarySearch(sortedArray, key) {
               let start = 0;
               let end = sortedArray.length - 1;
-              while (start <= end) {
-                let middle = Math.floor((start + end) / 2);
 
-                if (sortedArray[middle].s.toLowerCase() === key.toLowerCase()) {
+              var hits = [];
+
+              for (var i = 0; i < end; i++) {
+                if (
+                  (sortedArray[i].s.toLowerCase().includes(key.toLowerCase().trim())) ||
+                  (sortedArray[i].i.toLowerCase().includes(key.toLowerCase().trim()))
+                ) {
                   // found the key
-                  return middle;
-                } else if (sortedArray[middle].s.toLowerCase() < key.toLowerCase()) {
-                  start = middle + 1;
-                } else {
-                  // search searching to the left
-                  end = middle - 1;
+                  hits.push({
+                    src: "MGSE",
+                    link: "https://mangasee123.com/manga/" + sortedArray[i].i,
+                    thumb: "https://cover.nep.li/cover/" + sortedArray[i].i + ".jpg",
+                    title: sortedArray[i].s,
+                  })
                 }
               }
-              // key wasn't found
-              return -1;
+
+              return hits;
             }
 
-            var hitIndex = binarySearch(Dir, title)
-            var hit = Dir[hitIndex];
-            if (hitIndex !== -1) {
-              finalArray.push({
-                src: "MGSE",
-                link: "https://mangasee123.com/manga/" + hit.i,
-                thumb: "https://cover.nep.li/cover/" + hit.i + ".jpg",
-                title: hit.s,
-              });
-            }
-            resolve(finalArray);
+            resolve(binarySearch(Dir, title))
+
           } catch (e) {
             console.log(e);
           }

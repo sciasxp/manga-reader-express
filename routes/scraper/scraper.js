@@ -33,9 +33,9 @@ const sourcesOBJ = {
   RCO: {
     domain: "readcomiconline",
     name: "ReadComicOnline",
-    isComic:true
+    isComic: true
   },
-  MGJR:{
+  MGJR: {
     domain: "mangajar",
     name: "MangaJar",
   }
@@ -94,10 +94,10 @@ router.post("/getMangaList", (req, res) => {
       });
       break;
     case "MGSE":
-        mangaSeeObj.getMangaList(pageNo).then((data) => {
-          res.send(data);
-        });
-        break;
+      mangaSeeObj.getMangaList(pageNo).then((data) => {
+        res.send(data);
+      });
+      break;
     case "MGDX":
       mangaDexObj.getMangaList(pageNo).then((data) => {
         res.send(data);
@@ -109,7 +109,7 @@ router.post("/getMangaList", (req, res) => {
       });
       break;
     case "MGJR":
-      mangaJarObj.getMangaList(pageNo).then((data)=>{
+      mangaJarObj.getMangaList(pageNo).then((data) => {
         res.send(data)
       });
       break;
@@ -137,7 +137,7 @@ router.post("/search", (req, res) => {
   let maxComicItem = req.body.maxItems;
   if (req.body.type === "manga") {
     {
-      mangaFoxObj.search(maxItem, title, []).then((data) => {
+      mangaSeeObj.search(maxItem, title, []).then((data) => {
         res.send({ searchArray: data });
         // mangaHereObj.search(maxItem, title, data).then((data) => {
         //   mangaJarObj.search(maxItem,title,data).then((data)=>{
@@ -172,10 +172,10 @@ router.post("/getLatestChapter", (req, res) => {
       });
       break;
     case "MGSE":
-        mangaSeeObj.getLatestChapter(req.body.link).then((resp) => {
-          res.send(resp);
-        });
-        break;
+      mangaSeeObj.getLatestChapter(req.body.link).then((resp) => {
+        res.send(resp);
+      });
+      break;
     case "MGHR":
       mangaHereObj.getLatestChapter(req.body.link).then((data) => {
         res.send(data);
@@ -248,10 +248,10 @@ router.post("/getGenres", (req, res) => {
       });
       break;
     case "MGSE":
-        mangaSeeObj.getGenre().then((data) => {
-          res.send(data);
-        });
-        break;
+      mangaSeeObj.getGenre().then((data) => {
+        res.send(data);
+      });
+      break;
     case "MGHR":
       mangaHereObj.getGenre().then((data) => {
         res.send(data);
@@ -286,10 +286,10 @@ router.post("/genreManga", (req, res) => {
       });
       break;
     case "MGSE":
-        mangaSeeObj.getGenreManga(req.body.link, req.body.page).then((data) => {
-          res.send(data);
-        });
-        break;
+      mangaSeeObj.getGenreManga(req.body.link, req.body.page).then((data) => {
+        res.send(data);
+      });
+      break;
     case "MGHR":
       mangaHereObj.getGenreManga(req.body.link, req.body.page).then((data) => {
         res.send(data);
@@ -315,12 +315,12 @@ router.post("/genreManga", (req, res) => {
 
 router.post("/errorFixer", (req, res) => {
   switch (req.body.src) {
-    case  "MGJR":
-      if(req.body.fix === "linkFix"){
+    case "MGJR":
+      if (req.body.fix === "linkFix") {
         mangaJarObj.getLinkFromName(req.body.name)
-        .then((data)=>{
-          res.send(data);
-        })
+          .then((data) => {
+            res.send(data);
+          })
       }
       break;
     default:

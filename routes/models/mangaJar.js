@@ -185,8 +185,8 @@ class MangaJar {
                 $(".row")
                   .children("div")
                   .children("div")
-                  .eq(0)
-                  .children("article").length !== 0
+                  //.eq(0)
+                  .children("article").eq(i).length !== 0
 
               ) {
 
@@ -195,7 +195,7 @@ class MangaJar {
                   thumb: $(".row")
                     .children("div")
                     .children("div")
-                    .eq(0)
+                    //.eq(0)
                     .children("article")
                     .eq(i)
                     .children("a")
@@ -206,7 +206,7 @@ class MangaJar {
                     $(".row")
                       .children("div")
                       .children("div")
-                      .eq(0)
+                      //.eq(0)
                       .children("article")
                       .eq(i)
                       .children("a")
@@ -215,7 +215,7 @@ class MangaJar {
                   title: $(".row")
                     .children("div")
                     .children("div")
-                    .eq(0)
+                    //.eq(0)
                     .children("article")
                     .eq(i)
                     .children("a")

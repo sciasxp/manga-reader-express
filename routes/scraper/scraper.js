@@ -22,10 +22,10 @@ const mangaJarObj = new mangaJar();
 const autoCompleteObj = new autoComplete();
 
 const sourcesOBJ = {
-  MGHR: {
-    domain: "mangahere",
-    name: "MangaHere",
-  },
+  // MGHR: {
+  //   domain: "mangahere",
+  //   name: "MangaHere",
+  // },
   MGFX: {
     domain: "fanfox.net",
     name: "MangaFox",
@@ -36,13 +36,17 @@ const sourcesOBJ = {
     isComic: true
   },
   MGJR: {
-    domain: "mangajar",
+    domain: "mangajar.com",
     name: "MangaJar",
-  }
-  // MGSE:{
-  //   domain: "mangasee123.com",
-  //   name: "Mangasee",
-  // }
+  },
+  MGSE: {
+    domain: "mangasee123.com",
+    name: "Mangasee",
+  },
+  // MGDX: {
+  //   domain: "mangadex",
+  //   name: "mangadex",
+  // },
 };
 
 router.post("/getImageList", async (req, res) => {
@@ -137,14 +141,29 @@ router.post("/search", (req, res) => {
   let maxComicItem = req.body.maxItems;
   if (req.body.type === "manga") {
     {
-      mangaSeeObj.search(maxItem, title, []).then((data) => {
-        res.send({ searchArray: data });
-        // mangaHereObj.search(maxItem, title, data).then((data) => {
-        //   mangaJarObj.search(maxItem,title,data).then((data)=>{
-        //       res.send({ searchArray: data });
-        //   })
-        // });
-      });
+      switch (req.body.src) {
+        case "MGJR":
+          mangaJarObj.search(maxItem, title, []).then((data) => {
+            res.send({ searchArray: data });
+          });
+          break;
+
+        case "MGDX":
+          mangaDexObj.search(maxItem, title, []).then((data) => {
+            res.send({ searchArray: data });
+          });
+          break;
+
+        case "MGSE":
+          mangaJarObj.search(maxItem, title, []).then((data) => {
+            res.send({ searchArray: data });
+          });
+          break;
+
+        default:
+          res.send({ message: "error" });
+          break;
+      }
     }
   } else if (req.body.type === "comic") {
     try {
@@ -160,40 +179,21 @@ router.post("/search", (req, res) => {
 });
 
 router.post("/getLatestChapter", (req, res) => {
-  switch (req.body.src) {
-    case "MGFX":
-      mangaFoxObj.getLatestChapter(req.body.link).then((data) => {
-        res.send(data);
-      });
-      break;
-    case "MGJR":
-      mangaJarObj.getLatestChapter(req.body.link).then((resp) => {
-        res.send(resp);
-      });
-      break;
-    case "MGSE":
-      mangaSeeObj.getLatestChapter(req.body.link).then((resp) => {
-        res.send(resp);
-      });
-      break;
-    case "MGHR":
-      mangaHereObj.getLatestChapter(req.body.link).then((data) => {
-        res.send(data);
-      });
-      break;
-    case "MGDX":
-      mangaDexObj.getLatestChapter(req.body.link).then((data) => {
-        res.send(data);
-      });
-      break;
-    case "RCO":
-      readComicOnlineObj.getLatestChapter(req.body.link).then((data) => {
-        res.send(data);
-      });
-      break;
-    default:
-      res.send({ message: "Latest error" });
-      break;
+  let url = req.body.link;
+  if (url.indexOf(sourcesOBJ.MGFX.domain) !== -1) {
+    mangaFoxObj.getLatestChapter(url).then((data) => {
+      res.send(data);
+    });
+  } else if (url.indexOf(sourcesOBJ.MGJR.domain) !== -1) {
+    mangaJarObj.getLatestChapter(url).then((data) => {
+      res.send(data);
+    });
+  } else if (url.indexOf(sourcesOBJ.MGSE.domain) !== -1) {
+    mangaSeeObj.getLatestChapter(url).then((data) => {
+      res.send(data);
+    });
+  } else {
+    res.send({ message: "error" });
   }
 });
 
@@ -230,9 +230,17 @@ router.post("/getMangaInfo", (req, res) => {
 router.post("/getMangaMeta", (req, res) => {
   // Gets info and chapter list of manga from url
   let url = req.body.url;
-  mangaFoxObj.getMangaMeta(url).then((data) => {
-    res.send(data);
-  });
+  if (url.indexOf("fanfox.net/") !== -1) {
+    mangaFoxObj.getMangaMeta(url).then((data) => {
+      res.send(data);
+    });
+  } else if (url.indexOf("mangajar.com/") !== -1) {
+    mangaJarObj.getMangaMeta(url).then((data) => {
+      res.send(data);
+    });
+  } else {
+    res.send({ message: "error" });
+  }
 });
 
 router.post("/getGenres", (req, res) => {
@@ -335,9 +343,17 @@ router.get("/sourceList", (req, res) => {
 
 router.post("/getPrevNextChapter", (req, res) => {
   let url = req.body.url;
-  mangaFoxObj.getPrevNextChapters(url).then((data) => {
-    res.send(data);
-  });
+  if (url.indexOf("fanfox.net/") !== -1) {
+    mangaFoxObj.getPrevNextChapters(url).then((data) => {
+      res.send(data);
+    });
+  } else if (url.indexOf("mangajar.com/") !== -1) {
+    mangaJarObj.getPrevNextChapters(url).then((data) => {
+      res.send(data);
+    });
+  } else {
+    res.send({ message: "error" });
+  }
 })
 
 module.exports = router;

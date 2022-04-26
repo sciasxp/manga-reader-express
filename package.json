@@ -12,18 +12,18 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/hapi": "^20.0.3",
-    "axios": "^0.21.0",
-    "body-parser": "^1.19.0",
-    "cheerio": "^1.0.0-rc.3",
+    "axios": "^0.27.1",
+    "body-parser": "^1.20.0",
+    "cheerio": "^1.0.0-rc.10",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "form-data": "^3.0.0",
-    "mangadex-full-api": "^4.0.0",
-    "moment": "^2.29.1",
+    "express": "^4.18.0",
+    "form-data": "^4.0.0",
+    "mangadex-full-api": "^5.11.1",
+    "moment": "^2.29.3",
     "request": "^2.88.2",
-    "underscore": "^1.12.0"
+    "underscore": "^1.13.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.15"
   }
 }

@@ -1,7 +1,7 @@
 // WARNING DID NOT TEST THIS MODULE AS IMAGES ARE 403'ed ANYWAY
 const http = require("https");
 const axios = require("axios");
-// const cheerio = require("cheerio");
+const cheerio = require("cheerio");
 const api = require("mangadex-full-api");
 const _ = require("underscore");
 const apiUrl = "https://mangadex.org/api/v2/"; // for mangadex
@@ -38,7 +38,7 @@ class MangaDex {
   }
 
   getMangaList(pageNo) {
-    let url = `https://mangadex.org/titles/9/${pageNo}`;
+    let url = `https://mangadex.org/titles?page=${pageNo}&order=followedCount.desc`;
 
     return new Promise((resolve, reject) => {
       http.get(url, (resp) => {
@@ -59,7 +59,7 @@ class MangaDex {
                 latestManga: "end",
               });
             } else {
-              $(".manga-entry").each((i, el) => {
+              $(".manga-card").each((i, el) => {
                 tempObj = {
                   description: "",
                   title: $(el)
@@ -83,9 +83,11 @@ class MangaDex {
                 };
                 mangaArr.push(tempObj);
               });
+
               let response = {
-                latestManga: mangaArr,
+                mangaList: mangaArr,
               };
+
               resolve(response);
             }
           } catch (error) {
@@ -97,7 +99,7 @@ class MangaDex {
   }
 
   search(maxItem, title, finalArray) {
-    return new Promise((resolve, reject) => {});
+    return new Promise((resolve, reject) => { });
   }
 
   getLatestChapter(url) {
@@ -183,8 +185,8 @@ class MangaDex {
 
               self.inWords = function (timeAgo) {
                 var seconds = Math.floor(
-                    (new Date() - parseInt(timeAgo)) / 1000
-                  ),
+                  (new Date() - parseInt(timeAgo)) / 1000
+                ),
                   separator = this.locales.separator || " ",
                   words = this.locales.prefix + separator,
                   interval = 0,

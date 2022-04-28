@@ -9,6 +9,7 @@ const mangaSee = require("../models/mangaSee");
 const readComicOnline = require("../models/readComicOnline");
 const autoComplete = require("../models/autoComplete");
 const mangaJar = require("../models/mangaJar");
+const manganato = require("../models/mangaNato");
 
 
 
@@ -20,6 +21,7 @@ const mangaSeeObj = new mangaSee();
 const readComicOnlineObj = new readComicOnline();
 const mangaJarObj = new mangaJar();
 const autoCompleteObj = new autoComplete();
+const manganatoObj = new manganato();
 
 const sourcesOBJ = {
   // MGHR: {
@@ -42,6 +44,10 @@ const sourcesOBJ = {
   MGSE: {
     domain: "mangasee123.com",
     name: "Mangasee",
+  },
+  MGNT: {
+    domain: "manganato.com",
+    name: "MangaNato",
   },
   // MGDX: {
   //   domain: "mangadex",
@@ -71,8 +77,12 @@ router.post("/getImageList", async (req, res) => {
     mangaDexObj.getImageList(url).then((data) => {
       res.send(data);
     });
-  } else if (url.indexOf("readcomiconline.to") !== -1) {
-    readComicOnlineObj.getImageList(url).then((data) => {
+    // } else if (url.indexOf("readcomiconline.to") !== -1) {
+    //   readComicOnlineObj.getImageList(url).then((data) => {
+    //     res.send(data);
+    //   });
+  } else if (url.indexOf("manganato.com") !== -1) {
+    manganatoObj.getImageList(url).then((data) => {
       res.send(data);
     });
   } else {
@@ -114,8 +124,13 @@ router.post("/getMangaList", (req, res) => {
       break;
     case "MGJR":
       mangaJarObj.getMangaList(pageNo).then((data) => {
-        res.send(data)
+        res.send(data);
       });
+      break;
+    case "MGNT":
+      manganatoObj.getMangaList(pageNo).then((data) => {
+        res.send(data);
+      })
       break;
     default:
       res.send({ message: "error" });
@@ -160,6 +175,12 @@ router.post("/search", (req, res) => {
           });
           break;
 
+        case "MGNT":
+          manganatoObj.search(maxItem, title, []).then((data) => {
+            res.send({ searchArray: data });
+          });
+          break;
+
         default:
           res.send({ message: "error" });
           break;
@@ -192,6 +213,10 @@ router.post("/getLatestChapter", (req, res) => {
     mangaSeeObj.getLatestChapter(url).then((data) => {
       res.send(data);
     });
+  } else if (url.indexOf(sourcesOBJ.MGNT.domain) !== -1) {
+    manganatoObj.getLatestChapter(url).then((data) => {
+      res.send(data);
+    });
   } else {
     res.send({ message: "error" });
   }
@@ -220,8 +245,12 @@ router.post("/getMangaInfo", (req, res) => {
     mangaDexObj.getMangaInfo(url).then((data) => {
       res.send(data);
     });
-  } else if (url.indexOf("readcomiconline.to/" !== -1)) {
-    readComicOnlineObj.getMangaInfo(url).then((data) => {
+    // } else if (url.indexOf("readcomiconline.to" !== -1)) {
+    //   readComicOnlineObj.getMangaInfo(url).then((data) => {
+    //     res.send(data);
+    //   });
+  } else if (url.indexOf("readmanganato.com" !== -1)) {
+    manganatoObj.getMangaInfo(url).then((data) => {
       res.send(data);
     });
   }
@@ -236,6 +265,10 @@ router.post("/getMangaMeta", (req, res) => {
     });
   } else if (url.indexOf("mangajar.com/") !== -1) {
     mangaJarObj.getMangaMeta(url).then((data) => {
+      res.send(data);
+    });
+  } else if (url.indexOf("readmanganato.com" !== -1)) {
+    manganatoObj.getMangaInfo(url).then((data) => {
       res.send(data);
     });
   } else {
@@ -349,6 +382,10 @@ router.post("/getPrevNextChapter", (req, res) => {
     });
   } else if (url.indexOf("mangajar.com/") !== -1) {
     mangaJarObj.getPrevNextChapters(url).then((data) => {
+      res.send(data);
+    });
+  } else if (url.indexOf("manganato.com/") !== -1) {
+    manganatoObj.getPrevNextChapters(url).then((data) => {
       res.send(data);
     });
   } else {

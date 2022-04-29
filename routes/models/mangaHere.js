@@ -3,6 +3,63 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 
 class MangaHere {
+  getPrevNextChapters(url) {
+    return new Promise((resolve, reject) => {
+      var options = {
+        method: 'GET',
+        headers: { 'Cookie': 'isAdult=1' }
+      };
+
+      http.get(url, options, (resp) => {
+        let html = "";
+
+        resp.on("data", (chunk) => {
+          html += chunk;
+        });
+
+        resp.on("end", () => {
+          try {
+            const $ = cheerio.load(html);
+
+            let nextChap = "";
+            let prevChap = "";
+
+            const nodePrev = $(".pager-list-left")
+              .children("a")
+              .first()
+
+            const nodeNext = $(".pager-list-left")
+              .children("a")
+              .last()
+
+            if (nodePrev.text() === "Pre chapter") {
+              prevChap = "https://www.mangahere.cc" + nodePrev
+                .attr("href");
+            }
+
+            if (nodePrev.text() === "Next Chapter") {
+              nextChap = "https://www.mangahere.cc/" + nodePrev
+                .attr("href");
+            }
+
+            if (nodeNext.text() === "Next Chapter") {
+              nextChap = "https://www.mangahere.cc/" + nodeNext
+                .attr("href");
+            }
+
+            resolve({
+              prevChapter: prevChap,
+              nextChapter: nextChap,
+            });
+
+          } catch (e) {
+            console.log(e);
+          }
+        });
+      });
+    });
+  }
+
   getImageList(url, reliable = false) {
     if (reliable === false) {
       return new Promise((resolve, reject) => {
@@ -229,7 +286,7 @@ class MangaHere {
                 mangaArr.push(tempObj);
               });
             resolve({
-              latestManga: mangaArr,
+              mangaList: mangaArr,
             });
           } catch (e) {
             console.log(e);
@@ -298,7 +355,12 @@ class MangaHere {
 
   getLatestChapter(url) {
     return new Promise((resolve, reject) => {
-      http.get(url, (resp) => {
+      var options = {
+        method: 'GET',
+        headers: { 'Cookie': 'isAdult=1' }
+      };
+
+      http.get(url, options, (resp) => {
         let html = "";
 
         resp.on("data", (chunk) => {

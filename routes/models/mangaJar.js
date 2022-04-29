@@ -45,7 +45,13 @@ class MangaJar {
 
   getImageList(url) {
     return new Promise((resolve, reject) => {
-      http.get(url, (resp) => {
+      var options = {
+        headers: {
+          Cookie: "adultConfirmed=1;",
+        }
+      }
+
+      http.get(url, options, (resp) => {
         let html = "";
 
         resp.on("data", (chunk) => {
@@ -298,7 +304,6 @@ class MangaJar {
             status = status.substring(status.indexOf(':') + 1)
             status = status.trim()
 
-
             let chapterList = [];
 
             $(".chapter-list-container")
@@ -311,12 +316,15 @@ class MangaJar {
                 });
               });
 
+            let lastUpdate = $(".chapter-list-container")
+              .children("li")
+              .eq(0)
+              .children("span").text().trim()
+
             let chap_pages = $(".chapters-infinite-pagination").children("nav").children(".pagination").children(".page-item").length - 3;
-            // console.log(chap_pages)
             let $2 = null
 
             function doRequest(link) {
-              // console.log(link)
               let chap_list = [];
               try {
                 return new Promise((resolve, reject) => {
@@ -328,11 +336,7 @@ class MangaJar {
                       html += chunk;
                     });
 
-
-
                     resp.on("end", () => {
-
-
                       $2 = cheerio.load(html);
                       $2(".chapter-list-container")
                         .children("li")
@@ -347,10 +351,6 @@ class MangaJar {
                       resolve(chap_list)
 
                     })
-
-
-
-
                   }).on('error', (e) => {
                     console.error(e);
                   });
@@ -376,7 +376,7 @@ class MangaJar {
                 desc: desc,
                 status: status,
                 author: "",
-                lastUpdate: "",
+                lastUpdate: lastUpdate,
                 chapterList: chapterList,
               },
             });
@@ -427,6 +427,11 @@ class MangaJar {
             status = status.substring(status.indexOf(':') + 1)
             status = status.trim()
 
+            let lastUpdate = $(".chapter-list-container")
+              .children("li")
+              .eq(0)
+              .children("span").text().trim()
+
             resolve({
               mangaInfo: {
                 src: "MGJR",
@@ -435,7 +440,7 @@ class MangaJar {
                 desc: desc,
                 status: status,
                 author: "",
-                lastUpdate: "",
+                lastUpdate: lastUpdate,
               },
             });
 

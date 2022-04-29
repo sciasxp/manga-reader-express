@@ -139,7 +139,11 @@ class MangaHere {
   getMangaList(pageNo) {
     let url = `https://mangasee123.com/`;
     return new Promise((resolve, reject) => {
-      http.get(url, (resp) => {
+      var options = {
+        headers: { 'Referer': 'https://mangasee123.com/' }
+      }
+
+      http.get(url, options, (resp) => {
         let html = "";
 
         resp.on("data", (chunk) => {

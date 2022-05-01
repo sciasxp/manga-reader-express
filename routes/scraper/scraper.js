@@ -79,7 +79,7 @@ router.post("/getImageList", async (req, res) => {
     //   readComicOnlineObj.getImageList(url).then((data) => {
     //     res.send(data);
     //   });
-  } else if (url.indexOf(sourcesOBJ.MGSE.domain) !== -1) {
+  } else if (url.indexOf(sourcesOBJ.MGNT.domain) !== -1) {
     manganatoObj.getImageList(url).then((data) => {
       res.send(data);
     });
@@ -274,7 +274,7 @@ router.post("/getMangaMeta", (req, res) => {
       res.send(data);
     });
   } else if (url.indexOf(sourcesOBJ.MGNT.domain) !== -1) {
-    manganatoObj.getMangaInfo(url).then((data) => {
+    manganatoObj.getMangaMeta(url).then((data) => {
       res.send(data);
     });
     // } else if (url.indexOf(sourcesOBJ.MGSE.domain) !== -1) {
@@ -282,7 +282,7 @@ router.post("/getMangaMeta", (req, res) => {
     //     res.send(data);
     //   });
   } else if (url.indexOf(sourcesOBJ.MGHR.domain) !== -1) {
-    mangaHereObj.getMangaInfo(url).then((data) => {
+    mangaHereObj.getMangaMeta(url).then((data) => {
       res.send(data);
     });
   } else {

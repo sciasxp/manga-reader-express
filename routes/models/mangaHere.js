@@ -466,6 +466,105 @@ class MangaHere {
     });
   }
 
+  getMangaMeta(url) {
+    return new Promise((resolve, reject) => {
+      let pathName = url.substring(url.indexOf("/manga"), url.length);
+      var options = {
+        method: "GET",
+        hostname: "fanfox.net",
+        path: pathName,
+        headers: {
+          Cookie: "isAdult=1;",
+        },
+        maxRedirects: 20,
+      };
+
+      var req = http.request(options, function (res) {
+        var chunks = [];
+
+        res.on("data", function (chunk) {
+          chunks.push(chunk);
+        });
+
+        res.on("end", function () {
+          var html = Buffer.concat(chunks);
+          html = html.toString();
+          try {
+            const $ = cheerio.load(html);
+            let thumb = $(".detail-info-cover-img").attr("src");
+            let title = $(".detail-info-right-title-font").text();
+            let status = $(".detail-info-right-title-tip").text();
+            let author = $(".detail-info-right-say").children("a").text();
+            let lastUpdate = $(".detail-main-list-title-right").text();
+            let desc = $(".fullcontent").text();
+            let lastChapter = $(".detail-main-list")
+              .children("li")
+              .first()
+              .children("a")
+              .children(".detail-main-list-main")
+              .children(".title3")
+              .text();
+
+            resolve({
+              mangaInfo: {
+                src: "MGFX",
+                thumb: thumb,
+                title: title,
+                desc: desc,
+                status: status,
+                author: author,
+                lastUpdate: lastUpdate,
+                lastChapter: lastChapter
+              },
+            });
+          } catch (e) {
+            console.log(e);
+          }
+        });
+
+        res.on("error", function (error) {
+          console.error(error);
+        });
+      });
+
+      req.end();
+    });
+  }
+
+  getLatestChapter(url) {
+    return new Promise((resolve, reject) => {
+      var options = {
+        method: 'GET',
+        headers: { 'Cookie': 'isAdult=1' }
+      };
+
+      http.get(url, options, (resp) => {
+        let html = "";
+
+        resp.on("data", (chunk) => {
+          html += chunk;
+        });
+
+        resp.on("end", () => {
+          try {
+            const $ = cheerio.load(html);
+            resolve({
+              message: $(".detail-main-list")
+                .children("li")
+                .eq(0)
+                .children("a")
+                .children(".detail-main-list-main")
+                .children(".title3")
+                .text(),
+            });
+          } catch (e) {
+            console.log(e);
+          }
+        });
+      });
+    });
+  }
+
   getGenre() {
     return new Promise((resolve, reject) => {
       let url = "https://www.mangahere.cc/directory/";

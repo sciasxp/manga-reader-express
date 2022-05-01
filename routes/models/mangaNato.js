@@ -328,6 +328,14 @@ class MangaNato {
                             .eq(1)
                             .text()
 
+                        let lastChapter = $(".panel-story-chapter-list")
+                            .children("ul")
+                            .children("li")
+                            .eq(0)
+                            .children("a")
+                            .text()
+                            .trim();
+
                         resolve({
                             mangaInfo: {
                                 src: "MGNT",
@@ -337,6 +345,7 @@ class MangaNato {
                                 status: status,
                                 author: authors,
                                 lastUpdate: update,
+                                lastChapter: lastChapter,
                             },
                         });
 

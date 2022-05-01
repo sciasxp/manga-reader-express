@@ -430,7 +430,12 @@ class MangaJar {
             let lastUpdate = $(".chapter-list-container")
               .children("li")
               .eq(0)
-              .children("span").text().trim()
+              .children("span").text().trim();
+
+            let lastChapter = $(".chapter-list-container")
+              .children("li")
+              .eq(0)
+              .children("a").children("span").text().trim();
 
             resolve({
               mangaInfo: {
@@ -441,6 +446,7 @@ class MangaJar {
                 status: status,
                 author: "",
                 lastUpdate: lastUpdate,
+                lastChapter: lastChapter,
               },
             });
 

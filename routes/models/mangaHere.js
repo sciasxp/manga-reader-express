@@ -440,6 +440,14 @@ class MangaHere {
                 });
               });
 
+            let lastChapter = $(".detail-main-list")
+              .children("li")
+              .first()
+              .children("a")
+              .children(".detail-main-list-main")
+              .children(".title3")
+              .text();
+
             resolve({
               mangaInfo: {
                 src: "MGHR",
@@ -449,6 +457,7 @@ class MangaHere {
                 status: status,
                 author: author,
                 lastUpdate: lastUpdate,
+                lastChapter: lastChapter,
                 chapterList: chapterList,
               },
             });
@@ -471,7 +480,7 @@ class MangaHere {
       let pathName = url.substring(url.indexOf("/manga"), url.length);
       var options = {
         method: "GET",
-        hostname: "fanfox.net",
+        hostname: "www.mangahere.cc",
         path: pathName,
         headers: {
           Cookie: "isAdult=1;",

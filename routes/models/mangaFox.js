@@ -8,7 +8,7 @@ class MangaHere {
     return new Promise((resolve, reject) => {
       var options = {
         method: 'GET',
-        headers: {'Cookie': 'isAdult=1'}
+        headers: { 'Cookie': 'isAdult=1' }
       };
 
       http.get(url, options, (resp) => {
@@ -21,7 +21,7 @@ class MangaHere {
         resp.on("end", () => {
           try {
             const $ = cheerio.load(html);
-            
+
             let nextChap = "";
             let prevChap = "";
 
@@ -35,24 +35,24 @@ class MangaHere {
 
             if (nodePrev.text() === "Pre chapter") {
               prevChap = "https://fanfox.net" + nodePrev
-                                                  .attr("href");
+                .attr("href");
             }
 
             if (nodePrev.text() === "Next Chapter") {
               nextChap = "https://fanfox.net" + nodePrev
-                                                 .attr("href");
+                .attr("href");
             }
 
             if (nodeNext.text() === "Next Chapter") {
               nextChap = "https://fanfox.net" + nodeNext
-                                                  .attr("href");
+                .attr("href");
             }
 
             resolve({
               prevChapter: prevChap,
               nextChapter: nextChap,
             });
-            
+
           } catch (e) {
             console.log(e);
           }
@@ -250,7 +250,7 @@ class MangaHere {
 
   getMangaList(pageNo, status = 'ALL', sortby = '') {
     let url = `https://fanfox.net/directory/${pageNo}.html`;
-    
+
     if (status !== 'ALL') {
       url = `https://fanfox.net/directory/${status}/${pageNo}.html`;
     }
@@ -282,11 +282,11 @@ class MangaHere {
                   .children(".manga-list-1-item-title")
                   .children("a")
                   .attr("title");
-                  //.text();
+                //.text();
                 let link = $(el).children("a").attr("href");
                 link = "https://fanfox.net" + link;
                 let imageLink = $(el).children("a").children("img").attr("src");
-                
+
                 tempObj = {
                   description: "",
                   title: title,
@@ -299,7 +299,7 @@ class MangaHere {
 
             resolve({
               mangaList: mangaArr,
-            });  
+            });
           } catch (e) {
             console.log(e);
           }
@@ -369,7 +369,7 @@ class MangaHere {
     return new Promise((resolve, reject) => {
       var options = {
         method: 'GET',
-        headers: {'Cookie': 'isAdult=1'}
+        headers: { 'Cookie': 'isAdult=1' }
       };
 
       http.get(url, options, (resp) => {
@@ -430,6 +430,13 @@ class MangaHere {
             let author = $(".detail-info-right-say").children("a").text();
             let lastUpdate = $(".detail-main-list-title-right").text();
             let desc = $(".fullcontent").text()
+            let lastChapter = $(".detail-main-list")
+              .children("li")
+              .first()
+              .children("a")
+              .children(".detail-main-list-main")
+              .children(".title3")
+              .text();
             // let desc = $(".detail-info-right-content").text();
             // desc += $(".fullcontent").text();
             let chapterList = [];
@@ -461,6 +468,7 @@ class MangaHere {
                 status: status,
                 author: author,
                 lastUpdate: lastUpdate,
+                lastChapter: lastChapter,
                 chapterList: chapterList,
               },
             });
@@ -516,7 +524,7 @@ class MangaHere {
               .children(".detail-main-list-main")
               .children(".title3")
               .text();
-              
+
             resolve({
               mangaInfo: {
                 src: "MGFX",
@@ -581,7 +589,7 @@ class MangaHere {
       let url = link + `${page}.htm`;
       http.get(url, (resp) => {
         let html = "";
-        
+
         resp.on("data", (chunk) => {
           html += chunk;
         });

@@ -301,8 +301,13 @@ class MangaJar {
               .children("span")
               .eq(1)
               .text();
-            status = status.substring(status.indexOf(':') + 1)
-            status = status.trim()
+            status = status.substring(status.indexOf(':') + 1);
+            status = status.trim();
+
+            let lastChapter = $(".chapter-list-container")
+              .children("li")
+              .eq(0)
+              .children("a").children("span").text().trim();
 
             let chapterList = [];
 
@@ -377,6 +382,7 @@ class MangaJar {
                 status: status,
                 author: "",
                 lastUpdate: lastUpdate,
+                lastChapter: lastChapter,
                 chapterList: chapterList,
               },
             });

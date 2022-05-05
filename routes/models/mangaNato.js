@@ -235,8 +235,15 @@ class MangaNato {
                             .eq(0)
                             .children("span")
                             .eq(1)
-                            .text()
+                            .text();
 
+                        let lastChapter = $(".panel-story-chapter-list")
+                            .children("ul")
+                            .children("li")
+                            .eq(0)
+                            .children("a")
+                            .text()
+                            .trim();
 
                         let chapterList = [];
 
@@ -260,6 +267,7 @@ class MangaNato {
                                 status: status,
                                 author: authors,
                                 lastUpdate: update,
+                                lastChapter: lastChapter,
                                 chapterList: chapterList,
                             },
                         });

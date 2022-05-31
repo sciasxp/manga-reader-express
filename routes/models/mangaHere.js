@@ -451,6 +451,7 @@ class MangaHere {
             resolve({
               mangaInfo: {
                 src: "MGHR",
+                link: url,
                 thumb: thumb,
                 title: title,
                 desc: desc,
@@ -517,6 +518,7 @@ class MangaHere {
             resolve({
               mangaInfo: {
                 src: "MGFX",
+                link: url,
                 thumb: thumb,
                 title: title,
                 desc: desc,

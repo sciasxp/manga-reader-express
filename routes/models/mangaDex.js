@@ -274,6 +274,7 @@ class MangaDex {
               response = {
                 mangaInfo: {
                   scr: "MGDX",
+                  link: url,
                   thumb: data.mainCover,
                   title: data.title,
                   desc: _.unescape(
